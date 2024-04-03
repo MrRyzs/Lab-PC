@@ -11,6 +11,8 @@ use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
+    
+
     public function register()
     {
         return view('auth.registration');
@@ -18,7 +20,6 @@ class LoginController extends Controller
 
     public function register_proses(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'nis' => 'required|unique:users',
             'name' => 'required',
@@ -29,6 +30,7 @@ class LoginController extends Controller
         ]);
 
         $data = [
+            'id' => Str::uuid(), // Mengisi kolom id dengan UUID baru
             'nis' => $request->nis,
             'email' => $request->email,
             'name' => $request->name,
@@ -43,20 +45,6 @@ class LoginController extends Controller
             return redirect()->route('login');
         } else {
             return redirect()->route('register')->with('error', 'Registrasi Gagal');
-        }
-    }
-
-    public function login()
-    {
-        return view('auth.login');
-    }
-
-    public function login_proses(Request $request)
-    {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->intended('/dashboard');
-        } else {
-            return redirect()->route('login')->with('error', 'Email atau Password Salah');
         }
     }
 }
