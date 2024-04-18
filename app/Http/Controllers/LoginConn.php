@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginConn extends Controller
 {
+    public function index() {
+        return view('ui.login');
+    }
+
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
